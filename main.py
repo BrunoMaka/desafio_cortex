@@ -1,0 +1,23 @@
+
+from selenium.webdriver import Chrome
+from crawler.crawler import Crawler
+from crawler.settings import *
+from tools.webdriver_setup import Setup
+from tools.decorators import *
+import os, time
+
+#@check_free
+class Application():
+    def __init__(self):
+        self.run()
+
+    def run(self):
+        setup = Setup(os.getcwd())       
+        self.webdriver = Chrome(service=setup.s, options=setup.opt)
+        self.crawler = Crawler(self.webdriver, MAIN_URL)
+        self.crawler.open_url()
+        
+   
+
+if __name__ == "__main__":
+    Application()

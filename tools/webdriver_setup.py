@@ -1,13 +1,10 @@
-
-#pip install selenium
-#pip install webdriver-manager
-
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver import ChromeOptions
 
 class Setup():
-    def __init__(self, download_path) -> None:       
+    def __init__(self, download_path) -> None:    
+        ''' Setup inicial para o webdriver'''   
         self.s = Service(ChromeDriverManager(version="114.0.5735.90").install())  
         self.opt = ChromeOptions()
         prefs = {

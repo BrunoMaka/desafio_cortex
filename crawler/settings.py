@@ -1,14 +1,24 @@
+import sys
+
+# URL PRINCIPAL
 MAIN_URL = 'https://esaj.tjsp.jus.br/cpopg/open.do'
 
+# NOME DO CRAWLER
 CRAWLER_NAME = 'crawler_desafio_cortex'
 
-MAX_COLLECT = 3
+# MAXIMO DE COLETAS DESEJADAS
+try:
+    MAX_COLLECT = sys.argv[1]
+except:
+    MAX_COLLECT = 5
 
+# DOCUMENTOS A SEREM COLETADOS
 DOCS = [
     '60746948000112',
     '60701190000104'
 ]
 
+# DE-PARA DO TIPO DA PARTE
 DE_PARA_TIPO = {
     'Reqte': 'REQUERENTE',
     'Reqdo': 'REQUERIDO',

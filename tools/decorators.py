@@ -3,7 +3,7 @@ import time
 
 def track_processed_items(func):
     '''
-    Processar itens de um dicionário e após concluído, não repetir mesmo item
+    Processar itens de uma lista e após concluído, não repetir mesmo item
     '''
     processed_items = set()
     def wrapper(self, list):

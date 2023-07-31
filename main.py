@@ -8,7 +8,7 @@ import os, time
 
 #@check_free
 class Application():
-    def __init__(self):
+    def __init__(self):       
         self.run()
 
     def run(self):
@@ -16,7 +16,7 @@ class Application():
         self.webdriver = Chrome(service=setup.s, options=setup.opt)
         self.crawler = Crawler(self.webdriver, MAIN_URL)
         self.crawler.open_url()
-        
+        self.crawler.get_infos(MAX_COLLECT)
    
 
 if __name__ == "__main__":

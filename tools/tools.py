@@ -1,6 +1,9 @@
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import ElementClickInterceptedException
 from bs4 import BeautifulSoup
+from unidecode import unidecode
+from datetime import datetime
 import logging, os
 from abc import ABC
 from crawler.settings import *
@@ -77,8 +80,43 @@ class Tools(ABC):
         return self.webdriver.switch_to.default_content()
 
     def switch_to_parent_frame(self):       
-
         return self.webdriver.switch_to.parent_frame()
+
+    def scroll(self, pixels=300, to='DOWN'):
+        if to == 'DOWN':
+            self.webdriver.execute_script(f"window.scrollBy(0, {pixels});")
+        elif to == 'UP':
+            self.webdriver.execute_script(f"window.scrollBy(0, {-pixels});")
+        
+    def find_element_clickable_and_click(self, locator):        
+        self.clicked = False
+        while not self.clicked:
+            try:
+                self.click_in_element(locator, t=1) 
+                self.clicked = True
+                return self.clicked 
+            except ElementClickInterceptedException as err:              
+                self.scroll()
+            except:
+                self.clicked = True
+                return False
+        
+
+
+    def format_text(self, text):
+        if text:
+            return unidecode(text).upper().strip().replace('\n', '').replace('\t', '')
+    
+    def format_data(self, data_str):
+        return datetime.strptime(data_str, "%d/%m/%Y").strftime("%Y-%m-%dT00:00:00")
+    
+    def format_datetime(self, datetime_str):
+        datetime_str = datetime_str.split('-')[0].strip()
+        return datetime.strptime(datetime_str, "%d/%m/%Y às %H:%M").strftime("%Y-%m-%dT%H:%M:%S")
+    
+    def split_text(self, text):        
+        return [unidecode(texto.strip().upper()) for texto in text.split('\n') if texto.strip()]
+    
     
     def split_list(self, list, num):              
         splited_list = []

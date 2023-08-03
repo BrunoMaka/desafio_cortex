@@ -15,10 +15,8 @@ class Application():
     def run(self):        
         setup = Setup(os.getcwd())       
         self.webdriver = Chrome(service=setup.s, options=setup.opt)
-        self.crawler = Crawler(self.webdriver, MAIN_URL)
-        self.crawler.print_log('Abrindo URL')
-        self.crawler.open_url()
-        self.crawler.print_log(f'Iniciando coletas de {MAX_COLLECT} processos')
+        self.crawler = Crawler(self.webdriver, MAIN_URL)        
+        self.crawler.open_url()        
         self.crawler.get_infos(MAX_COLLECT)
 
 if __name__ == "__main__":

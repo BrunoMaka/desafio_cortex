@@ -71,6 +71,7 @@ class Tools(ABC):
         
     def open_url(self):        
         '''Abre a url'''
+        self.print_log('Abrindo URL')
         self.webdriver.get(self.url)
 
     def open_tab(self):

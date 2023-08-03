@@ -13,6 +13,8 @@ class Crawler(Tools):
         Coleta as informações dos processos, coletando no máximo o valor fornecido em max_collect
         '''
         self.max_collect = max_collect
+        self.print_log(f'Iniciando coletas de {self.max_collect} processos')
+        
         for doc in DOCS:
             self.print_log(f'INICIANDO - {doc}')
             self.consulta = {

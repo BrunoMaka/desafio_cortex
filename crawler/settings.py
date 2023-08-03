@@ -26,6 +26,7 @@ DE_PARA_TIPO = {
     'Perito': 'PERITO',
     'Imptte': 'IMPTTE',
     'Imptdo': 'IMPTDO',
+    'Imptda': 'IMPTDA',
     'Interesda.':'INTERESSADA',
     'Interesdo.':'INTERESSADO',
     'Embargte':'EMBARGANTE',
@@ -46,11 +47,11 @@ DE_PARA_TIPO = {
     'Reclamante': 'RECLAMANTE',
     'Reclamado': 'RECLAMADO',
     'Reclamada': 'RECLAMADA',
-    'Autor': 'AUTOR'
-    
-
-
-
-
-
+    'Autor': 'AUTOR',
+    'Soc. Adv - Req': 'SOC. ADV. REQ.',
+    'Litisconsorte':'LITISCONSORTE',
+    'Credor': 'CREDOR',
+    'PromotTer': 'PROMOTOR TERCEIRO',
+    'Réu': 'REU',
+    'Confte': 'CONFTE'
 }

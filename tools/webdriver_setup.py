@@ -15,3 +15,4 @@ class Setup():
         self.opt.add_experimental_option("excludeSwitches", ["enable-logging"])        
         self.opt.add_experimental_option("prefs", prefs)
         self.opt.add_argument('--kiosk-printing')
+        self.opt.add_argument('--headless')

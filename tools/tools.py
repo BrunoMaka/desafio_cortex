@@ -122,7 +122,6 @@ class Tools(ABC):
                 self.clicked = True
                 return False 
 
-
     def format_text(self, text):
         ''' Formata o texto eliminando acentos, espações e todos em caixa alta'''
         if text:

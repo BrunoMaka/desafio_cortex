@@ -24,15 +24,16 @@ class Crawler(Tools):
             self.find(L_INPUT_DOCUMENT).clear()
             self.send_keys_to_element(L_INPUT_DOCUMENT, doc)            
             self.click_in_element(L_BTN_CONSULTAR)           
-            while len(self.webdriver.find_elements(*L_NEXT_PAGE)) > 0:
+            while True:
                 links = [el.get_attribute('href') for el in self.finds(L_LINKS)] 
                 self.open_tab()                 
                 self.get_data(links)
-                self.close_tab()
-                self.click_in_element(L_NEXT_PAGE)
+                self.close_tab()               
                 time.sleep(2)
                 if len(self.consulta['processos']) >= int(self.max_collect):
                     break
+                else:
+                    self.click_in_element(L_NEXT_PAGE)
             json_data = json.dumps(self.consulta)
             with open(f"{doc}-{self.consulta['dataConsulta']}.json", "w") as arquivo:
                 arquivo.write(json_data)
@@ -44,25 +45,29 @@ class Crawler(Tools):
         Coleta as informações de cada link
         '''             
         for link in links:                                     
-            self.webdriver.get(link) 
-            self.click_in_element(L_DADOS_SECUNDARIOS)    
-            processo = {
-                "uf": self.find(L_INITIALS).text[2:],
-                "area": self.format_text(self.find(L_AREA).get_attribute('title')),
-                "juiz": self.get_juiz(),
-                "partes": self.get_partes(),
-                "tribunal": f'{self.find(L_INITIALS).text[:2]}-{self.find(L_INITIALS).text[2:]}',
-                "movimentos": self.get_movimentos(),
-                "valorCausa": self.get_valor_causa(),
-                "assuntosCNJ": self.get_assuntos_CNJ(),
-                "urlProcesso": link,
-                "grauProcesso": self.get_grau(),
-                "orgaoJulgador": self.format_text(self.find(L_VARA).text),
-                "unidadeOrigem": self.format_text(self.find(L_FORO).text),
-                "classeProcessual": self.get_classe_processual(),
-                "dataDistribuicao": self.format_datetime(self.find(L_DATA_DISTRIBUICAO).text),
-                "numeroProcessoUnico": self.find(L_NUM_PROCESSO).text.replace('-', '').replace('.', ''),                        
-            }      
+            self.webdriver.get(link)
+            try: 
+                self.click_in_element(L_DADOS_SECUNDARIOS)    
+                processo = {
+                    "uf": self.find(L_INITIALS).text[2:],
+                    "area": self.format_text(self.find(L_AREA).get_attribute('title')),
+                    "juiz": self.get_juiz(),
+                    "partes": self.get_partes(),
+                    "tribunal": f'{self.find(L_INITIALS).text[:2]}-{self.find(L_INITIALS).text[2:]}',
+                    "movimentos": self.get_movimentos(),
+                    "valorCausa": self.get_valor_causa(),
+                    "assuntosCNJ": self.get_assuntos_CNJ(),
+                    "urlProcesso": link,
+                    "grauProcesso": self.get_grau(),
+                    "orgaoJulgador": self.format_text(self.find(L_VARA).text),
+                    "unidadeOrigem": self.format_text(self.find(L_FORO).text),
+                    "classeProcessual": self.get_classe_processual(),
+                    "dataDistribuicao": self.format_datetime(self.find(L_DATA_DISTRIBUICAO).text),
+                    "numeroProcessoUnico": self.find(L_NUM_PROCESSO).text.replace('-', '').replace('.', ''),                        
+                }     
+            except:
+                self.print_log(f'Não foi possivel coletar dados do link: `{link}')
+                processo = {'Necessário senha para acesso'} 
             self.consulta['processos'].append(processo) 
             self.print_log(f'Finalizando coleta {len(self.consulta["processos"])} de {self.max_collect}') 
             if len(self.consulta['processos']) >= int(self.max_collect):
@@ -85,6 +90,7 @@ class Crawler(Tools):
         try:
             return DE_PARA_TIPO[type]
         except:
+            self.print_log(f'ADICIONAR - {type}')
             return self.format_text(type)        
         
     def get_partes(self):  
